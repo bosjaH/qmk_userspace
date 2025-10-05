@@ -48,7 +48,7 @@ const uint32_t unicode_map[] PROGMEM = {
     [SMALL_I_GRAVE] = 0x00EC,                       [CAPITAL_I_GRAVE] = 0x00CC,                // ì Ì
     [SMALL_I_ACUTE] = 0x00ED,                       [CAPITAL_I_ACUTE] = 0x00CD,                // í Í
     [SMALL_N_TILDE] = 0x00F1,                       [CAPITAL_N_TILDE] = 0x00D1,                // ñ Ñ
-    [GREEK_SMALL_MU] = 0x03BC,                      [INFINITY] = 0x221E,                       // μ ∞
+    [GREEK_SMALL_MU] = 0x03BC,                      [INFINITY_SIGN] = 0x221E,                       // μ ∞
     [SMALL_O_GRAVE] = 0x00F2,                       [CAPITAL_O_GRAVE] = 0x00D2,                // ò Ò
     [SMALL_O_ACUTE] = 0x00F3,                       [CAPITAL_O_ACUTE] = 0x00D3,                // ó Ó
     [INVERTED_QUESTION_MARK] = 0x00BF,              [HORIZONTAL_ELLIPSIS] = 0x2026,            // ¿ …

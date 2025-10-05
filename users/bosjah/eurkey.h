@@ -47,7 +47,7 @@ enum unicode_names {
     SMALL_I_GRAVE,                          CAPITAL_I_GRAVE,                    // ì and Ì
     SMALL_I_ACUTE,                          CAPITAL_I_ACUTE,                    // í and Í
     SMALL_N_TILDE,                          CAPITAL_N_TILDE,                    // ñ and Ñ
-    GREEK_SMALL_MU,                         INFINITY,                           // μ and ∞
+    GREEK_SMALL_MU,                         INFINITY_SIGN,                      // μ and ∞
     SMALL_O_GRAVE,                          CAPITAL_O_GRAVE,                    // ò and Ò
     SMALL_O_ACUTE,                          CAPITAL_O_ACUTE,                    // ó and Ó
     INVERTED_QUESTION_MARK,                 HORIZONTAL_ELLIPSIS,                // ¿ and …
@@ -104,7 +104,7 @@ extern const uint32_t unicode_map[] PROGMEM;
 #define EU_V    UP(SMALL_I_GRAVE, CAPITAL_I_GRAVE)                              // ì on V, Ì on shift
 #define EU_B    UP(SMALL_I_ACUTE, CAPITAL_I_ACUTE)                              // í on B, Í on shift
 #define EU_N    UP(SMALL_N_TILDE, CAPITAL_N_TILDE)                              // ñ on N, Ñ on shift
-#define EU_M    UP(GREEK_SMALL_MU, INFINITY)                                    // μ on M, ∞ on shift
+#define EU_M    UP(GREEK_SMALL_MU, INFINITY_SIGN)                               // μ on M, ∞ on shift
 #define EU_COMM UP(SMALL_O_GRAVE, CAPITAL_O_GRAVE)                              // ò on comma, Ò on shift
 #define EU_DOT  UP(SMALL_O_ACUTE, CAPITAL_O_ACUTE)                              // ó on period, Ó on shift
 #define EU_SLSH UP(INVERTED_QUESTION_MARK, HORIZONTAL_ELLIPSIS)                 // ¿ on slash, … on shift    _______
