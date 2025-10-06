@@ -32,7 +32,8 @@
 #define __BASE_60_ROW3_ISO__________________    KC_TAB,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_NUBS
 #define __BASE_60_ROW4______________________    FN_LW_ESC, __QWERTY_L2_________________________, __QWERTY_R2_________________________, KC_QUOT, KC_ENT
 #define __BASE_60_ROW5______________________    KC_LSFT,   __QWERTY_L3_________________________, __QWERTY_R3_________________________, KC_RSFT
-#define __BASE_60_ROW6______________________    KC_LCTL,   KC_LGUI,   KC_LALT,                   FN_RS_SPC,                            KC_RALT, KC_RGUI, KC_F13, KC_RCTL
+#define __BASE_60_ROW6______________________    KC_LCTL,   KC_LGUI,   KC_LALT,                   FN_RS_SPC,                            KC_RALT, KC_RGUI, KC_APP, KC_RCTL
+#define __BASE_60_ROW6_EURKEY_______________    KC_LCTL,   KC_LGUI,   KC_LALT,                   FN_RS_SPC,                            KC_RALT, KC_RGUI, KC_F13, KC_RCTL
 
 // Base layer rows (75%)
 #define __BASE_75_ROW1______________________    KC_ESC,    __F_KEYS_L__________________________, __F_KEYS_R__________________________, KC_INS,  KC_MUTE
@@ -82,7 +83,7 @@
 // Adjust layer wrappers
 #define __ADJUST_60_ROW2____________________    FN_GAME,  DL_ISO,   DL_ANSI, DL_EURKEY,XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT
 #define __ADJUST_60_ROW3____________________    XXXXXXX,  XXXXXXX,  UC_WINC, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
-#define __ADJUST_60_ROW4____________________    XXXXXXX,  XXXXXXX,  DB_TOGG, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  UC_LINX,  XXXXXXX,  XXXXXXX,          FN_ADJUST
+#define __ADJUST_60_ROW4____________________    _______,  XXXXXXX,  DB_TOGG, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  UC_LINX,  XXXXXXX,  XXXXXXX,          FN_ADJUST
 #define __ADJUST_60_ROW5____________________    XXXXXXX,            XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX
 #define __ADJUST_60_ROW6____________________    XXXXXXX,  XXXXXXX,  XXXXXXX,                               XXXXXXX,                                XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
 
