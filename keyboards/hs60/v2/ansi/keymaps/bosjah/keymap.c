@@ -17,6 +17,34 @@
 #include QMK_KEYBOARD_H
 #include "bosjah.h"
 
+#ifdef COMBO_ENABLE
+enum combo_events {
+    COMBO_LSFT_DF,
+    COMBO_RSFT_JK,
+    COMBO_LALT_SD,
+    COMBO_RALT_KL,
+    COMBO_LSFT_LALT_SDF,
+    COMBO_RSFT_LALT_JKL
+};
+
+// Combo key sequences (must be in keymap for introspection)
+const uint16_t PROGMEM combo_lsft_df[] = { KC_D, KC_F, COMBO_END };
+const uint16_t PROGMEM combo_rsft_jk[] = { KC_J, KC_K, COMBO_END };
+const uint16_t PROGMEM combo_lalt_sd[] = { KC_S, KC_D, COMBO_END };
+const uint16_t PROGMEM combo_ralt_kl[] = { KC_K, KC_L, COMBO_END };
+const uint16_t PROGMEM combo_lsft_lalt_sdf[] = { KC_S, KC_D, KC_F, COMBO_END };
+const uint16_t PROGMEM combo_rsft_lalt_jkl[] = { KC_J, KC_K, KC_L, COMBO_END };
+
+combo_t key_combos[] = {
+    [COMBO_LSFT_DF] = COMBO(combo_lsft_df, KC_LSFT), \
+    [COMBO_RSFT_JK] = COMBO(combo_rsft_jk, KC_RSFT), \
+    [COMBO_LALT_SD] = COMBO(combo_lalt_sd, KC_LALT), \
+    [COMBO_RALT_KL] = COMBO(combo_ralt_kl, KC_RALT), \
+    [COMBO_LSFT_LALT_SDF] = COMBO(combo_lsft_lalt_sdf, KC_LSFT), \
+    [COMBO_RSFT_LALT_JKL] = COMBO(combo_rsft_lalt_jkl, KC_RSFT)
+};
+#endif
+
 #define WRAPPER_60_ansi(...) LAYOUT_60_ansi(__VA_ARGS__)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
