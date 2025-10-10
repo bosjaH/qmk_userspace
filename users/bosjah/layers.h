@@ -8,13 +8,21 @@
 #define __F_KEYS_L__________________________    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6
 #define __NUMBERS_L_________________________    KC_1,    KC_2,    KC_3,    KC_4,    KC_5
 #define __QWERTY_L1_________________________    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T
-#define __QWERTY_L2_________________________    KC_A,    KC_S,    KC_D,    KC_F,    KC_G
+#ifdef HOME_ROW_MODS_ENABLE
+    #define __QWERTY_L2_________________________    HRM_A,   HRM_S,   HRM_D,   HRM_F,   KC_G
+#else
+    #define __QWERTY_L2_________________________    KC_A,    KC_S,    KC_D,    KC_F,    KC_G
+#endif
 #define __QWERTY_L3_________________________    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B
 
 #define __F_KEYS_R__________________________    KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12
 #define __NUMBERS_R_________________________    KC_6,    KC_7,    KC_8,    KC_9,    KC_0
 #define __QWERTY_R1_________________________    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P
-#define __QWERTY_R2_________________________    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN
+#ifdef HOME_ROW_MODS_ENABLE
+    #define __QWERTY_R2_________________________    KC_H,    HRM_J,   HRM_K,   HRM_L,   HRM_SCLN
+#else
+    #define __QWERTY_R2_________________________    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN
+#endif
 #define __QWERTY_R3_________________________    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH
 
 #define __BLANK_5___________________________    _______,  _______,  _______,  _______,  _______
@@ -61,6 +69,13 @@
 #define __GAME_60_ROW6______________________    _______,  XXXXXXX,  _______,                   KC_SPACE,                             _______,  _______,  _______,  _______
 #define __GAME_75_ROW6______________________    _______,  XXXXXXX,  _______,                   KC_SPACE,                             _______,  _______,  _______,          _______, _______, _______
 
+// Home row mods training layer
+#ifdef HOME_ROW_MODS_ENABLE
+#define __BASE_60_ROW5_DM___________________    XXXXXXX,   __BLANK_5___________________________, __BLANK_5___________________________, XXXXXXX
+#define __BASE_60_ROW6_DM___________________    XXXXXXX,   XXXXXXX,   XXXXXXX,         _______,             _______, XXXXXXX, _______, XXXXXXX
+#define __BASE_75_ROW6_DM___________________    XXXXXXX,   XXXXXXX,   XXXXXXX,         _______,             _______, XXXXXXX, XXXXXXX, _______, _______, _______
+#endif
+
 // Lower = Extended
 // Raise = SpaceFN
 // Adjust = Config
@@ -84,7 +99,11 @@
 // Adjust layer wrappers
 #define __ADJUST_60_ROW2____________________    FN_GAME,  DL_ISO,   DL_ANSI, DL_EURKEY,XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT
 #define __ADJUST_60_ROW3____________________    XXXXXXX,  XXXXXXX,  UC_WINC, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
+#ifdef HOME_ROW_MODS_ENABLE
+#define __ADJUST_60_ROW4____________________    _______,  XXXXXXX,  DB_TOGG, XXXXXXX,  XXXXXXX,  XXXXXXX,  TG(L_HRM_TRAINING),  XXXXXXX,  XXXXXXX,  UC_LINX,  XXXXXXX,  XXXXXXX,          FN_ADJUST
+#else
 #define __ADJUST_60_ROW4____________________    _______,  XXXXXXX,  DB_TOGG, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  UC_LINX,  XXXXXXX,  XXXXXXX,          FN_ADJUST
+#endif
 #define __ADJUST_60_ROW5____________________    XXXXXXX,            XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX
 #define __ADJUST_60_ROW6____________________    XXXXXXX,  XXXXXXX,  XXXXXXX,                               XXXXXXX,                                XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
 

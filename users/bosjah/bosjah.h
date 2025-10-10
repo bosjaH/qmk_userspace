@@ -7,6 +7,9 @@
 // Include wrapper definitions
 #include "eurkey.h"
 #include "layers.h"
+#ifdef RGB_MATRIX_ENABLE
+#include "rgb_indicators.h"
+#endif
 
 enum custom_keycodes {
     CK_DEV = QK_USER,
@@ -18,6 +21,9 @@ enum layer_id {
     L_BASE,
     L_BASE_ANSI,
     L_BASE_EURKEY,
+#ifdef HOME_ROW_MODS_ENABLE
+    L_HRM_TRAINING,
+#endif
     L_GAME,
     L_LOWER,
     L_RAISE,
@@ -41,6 +47,17 @@ enum layer_id {
 #define DL_ISO      PDF(L_BASE)
 #define DL_ANSI     PDF(L_BASE_ANSI)
 #define DL_EURKEY   PDF(L_BASE_EURKEY)
+
+// Home row mods
+#define HRM_A    LGUI_T(KC_A)
+#define HRM_S    LALT_T(KC_S)
+#define HRM_D    LSFT_T(KC_D)
+#define HRM_F    LCTL_T(KC_F)
+
+#define HRM_J    RCTL_T(KC_J)
+#define HRM_K    RSFT_T(KC_K)
+#define HRM_L    LALT_T(KC_L)
+#define HRM_SCLN RGUI_T(KC_SCLN)
 
 // Function declarations
 void keyboard_post_init_user(void);
