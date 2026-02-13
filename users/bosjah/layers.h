@@ -1,7 +1,6 @@
 #pragma once
 #include "eurkey.h"
 
-// This file contains wrapper-based layer definitions similar to TZARC's approach
 // The 60% core is defined once, then extended for larger keyboards
 
 // Base building blocks
@@ -26,6 +25,7 @@
 #define __QWERTY_R3_________________________    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH
 
 #define __BLANK_5___________________________    _______,  _______,  _______,  _______,  _______
+
 
 // Transparent layer rows (60%)
 #define __TRNS_60_ROW2______________________    _______,  __BLANK_5___________________________,  __BLANK_5___________________________,  _______,  _______,  _______
@@ -56,13 +56,13 @@
 
 // Base layer rows (6x4)
 #define __BASE_6x4_L1_______________________    KC_GRV,    __NUMBERS_L_________________________
-#define __BASE_6x4_L2_______________________    KC_TAB,    __QWERTY_L1_________________________
-#define __BASE_6x4_L3_______________________    KC_ESC,    __QWERTY_L2_________________________
-#define __BASE_6x4_L4_______________________    KC_TAB,    __QWERTY_L3_________________________
+#define __BASE_6x4_L2_______________________    KC_ESC,    __QWERTY_L1_________________________
+#define __BASE_6x4_L3_______________________    KC_TAB,    __QWERTY_L2_________________________
+#define __BASE_6x4_L4_______________________    KC_LSFT,   __QWERTY_L3_________________________
 
-#define __BASE_6x4_R1_______________________    __NUMBERS_R_________________________, KC_BSPC
-#define __BASE_6x4_R2_______________________    __QWERTY_R1_________________________, KC_BSLS
-#define __BASE_6x4_R3_______________________    __QWERTY_R2_________________________, KC_ENT
+#define __BASE_6x4_R1_______________________    __NUMBERS_R_________________________, KC_DEL
+#define __BASE_6x4_R2_______________________    __QWERTY_R1_________________________, KC_BSPC
+#define __BASE_6x4_R3_______________________    __QWERTY_R2_________________________, KC_QUOT
 #define __BASE_6x4_R4_______________________    __QWERTY_R3_________________________, KC_RSFT
 
 // Game lockout
@@ -87,7 +87,7 @@
 #define __LOWER_60_ROW5_____________________    _______,          _______, _______, _______, _______, _______, KC_PGDN, M_WRDL,  M_WRDR,  _______, _______,          _______
 #define __LOWER_60_ROW6_____________________    _______, _______, _______,                   _______,                                     _______, _______, _______, _______
 
-#define __LOWER_6x4_R1______________________
+#define __LOWER_6x4_L1______________________    __F_KEYS_L__________________________
 
 // Raise layer wrappers
 #define __RAISE_60_ROW2_____________________    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL
@@ -113,3 +113,14 @@
 #define __EURKEY_60_ROW4____________________    _______, EU_A,    EU_S,    EU_D,    EU_F,    EU_G,    EU_H,    EU_J,    EU_K,    EU_L,    EU_SCLN, _______,           _______
 #define __EURKEY_60_ROW5____________________    _______,          EU_Z,    EU_X,    EU_C,    EU_V,    EU_B,    EU_N,    EU_M,    EU_COMM, EU_DOT,  EU_SLSH,           _______
 #define __EURKEY_60_ROW6____________________    __TRNS_60_ROW6______________________
+
+// Eurkey layer rows (6x4)
+#define __EURKEY_6x4_L1_____________________    _______, EU_1,    EU_2,    EU_3,    EU_4,    EU_5
+#define __EURKEY_6x4_L2_____________________    _______, EU_Q,    EU_W,    EU_E,    EU_R,    EU_T
+#define __EURKEY_6x4_L3_____________________    _______, EU_A,    EU_S,    EU_D,    EU_F,    EU_G
+#define __EURKEY_6x4_L4_____________________    _______, EU_Z,    EU_X,    EU_C,    EU_V,    EU_B
+
+#define __EURKEY_6x4_R1_____________________    _______, _______, EU_8,    EU_9,    EU_0,    _______
+#define __EURKEY_6x4_R2_____________________    EU_Y,    EU_U,    EU_I,    EU_O,    EU_P,    EU_LBRC
+#define __EURKEY_6x4_R3_____________________    EU_H,    EU_J,    EU_K,    EU_L,    EU_SCLN, EU_RBRC
+#define __EURKEY_6x4_R4_____________________    EU_N,    EU_M,    EU_COMM, EU_DOT,  EU_SLSH, EU_BSLS

@@ -3,6 +3,7 @@
     "build_targets": [
         ["monsgeek/m1", "bosjah"],
         ["hs60/v2/ansi", "bosjah"],
-        ["gh60/revc", "bosjah"]
+        ["gh60/revc", "bosjah"],
+        ["sofle/pandakb", "bosjah"]
     ]
 }
