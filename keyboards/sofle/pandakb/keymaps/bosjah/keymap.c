@@ -146,11 +146,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
 [L_ADJUST] = WRAPPER(
-    _______, DL_ISO,  _______, DL_EURKEY, _______, _______,                       _______, _______, _______, _______, _______, QK_BOOT,
-    _______, _______, _______, _______, _______, _______,                         _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______,                         _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______, _______, _______,
-                      _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
+    XXXXXXX, DL_ISO,  DL_ISO,  DL_EURKEY, XXXXXXX, XXXXXXX,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
+    XXXXXXX, XXXXXXX, UC_WINC, XXXXXXX, XXXXXXX, XXXXXXX,                         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, DB_TOGG, XXXXXXX, XXXXXXX,                         XXXXXXX, XXXXXXX, XXXXXXX, UC_LINX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RM_TOGG,       RM_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                      XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX,       XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX
 )
 };
 
@@ -165,49 +165,64 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [L_LOWER]  = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
     [L_RAISE]  = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
     [L_EURKEY_ALTGR] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
-    [L_ADJUST] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
+    [L_ADJUST] = { ENCODER_CCW_CW(RM_PREV, RM_NEXT), ENCODER_CCW_CW(RM_PREV, RM_NEXT) },
 };
 #endif
 
-// #ifdef OLED_ENABLE
-// oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-//   if (!is_keyboard_master()) {
-//     return OLED_ROTATION_180;
-//   }
-//   return rotation;
-// }
+#ifdef OLED_ENABLE
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+  if (!is_keyboard_master()) {
+    return OLED_ROTATION_270;
+  }
+  return rotation;
+}
 
-// bool oled_task_user(void) {
-//     // Host Keyboard Layer Status
-//     oled_write_P(PSTR("LAYER"), false);
+bool oled_task_user(void) {
+    // Default base layer (persisted with PDF)
+    oled_write_P(PSTR("BASE "), false);
+    switch (get_highest_layer(default_layer_state)) {
+        case L_BASE:
+            oled_write_ln_P(PSTR("Qwrty"), false);
+            break;
+        case L_BASE_EURKEY:
+            oled_write_ln_P(PSTR("EurKy"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("?\n"), false);
+    }
 
-//     switch (get_highest_layer(layer_state)) {
-//         case L_BASE:
-//             oled_write_P(PSTR("Base\n"), false);
-//             break;
-//         case L_LOWER:
-//             oled_write_P(PSTR("Lower\n"), false);
-//             break;
-//         case L_RAISE:
-//             oled_write_P(PSTR("Raise\n"), false);
-//             break;
-//         case L_EURKEY_ALTGR:
-//             oled_write_P(PSTR("Eurkey\n"), false);
-//             break;
-//         case L_ADJUST:
-//             oled_write_P(PSTR("ADJ\n"), false);
-//             break;
-//         default:
-//             // Or use the write_ln shortcut over adding '\n' to the end of your string
-//             oled_write_ln_P(PSTR("Undefined"), false);
-//     }
+    // Active layer
+    oled_write_P(PSTR("LAYER"), false);
+    switch (get_highest_layer(layer_state)) {
+        case L_BASE:
+        case L_BASE_EURKEY:
+            oled_write_ln_P(PSTR("\n"), false);
+            break;
+        case L_LOWER:
+            oled_write_ln_P(PSTR("Lower"), false);
+            break;
+        case L_RAISE:
+            oled_write_ln_P(PSTR("Raise"), false);
+            break;
+        case L_EURKEY_ALTGR:
+            oled_write_ln_P(PSTR("EurKy"), false);
+            break;
+        case L_ADJUST:
+            oled_write_ln_P(PSTR("Adjst"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("?\n"), false);
+    }
 
-//     // Host Keyboard LED Status
-//     led_t led_state = host_keyboard_led_state();
-//     oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
-//     oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
-//     oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
+    // Active modifiers (held + one-shot)
+    uint8_t mods = get_mods() | get_oneshot_mods();
+    oled_write_P(PSTR("MODS "), false);
+    oled_write_P((mods & MOD_MASK_CTRL)  ? PSTR("C") : PSTR(" "), false);
+    oled_write_P((mods & MOD_MASK_SHIFT) ? PSTR("S") : PSTR(" "), false);
+    oled_write_P((mods & MOD_MASK_ALT)   ? PSTR("A") : PSTR(" "), false);
+    oled_write_P((mods & MOD_MASK_GUI)   ? PSTR("G") : PSTR(" "), false);
+    oled_write_P(PSTR("\n"), false);
 
-//     return false;
-// }
-// #endif
+    return false;
+}
+#endif
