@@ -43,20 +43,5 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-#ifdef RGB_MATRIX_ENABLE
-    // Static variable to track previous layer state
-    static layer_state_t prev_state = 0;
-
-    // Check if we're leaving the adjust layer
-    bool was_adjust_active = (prev_state & (1UL << L_ADJUST)) != 0;
-    bool is_adjust_active = (state & (1UL << L_ADJUST)) != 0;
-
-    if (was_adjust_active && !is_adjust_active) {
-        // We just left the adjust layer, trigger full RGB refresh like on startup
-        rgb_matrix_init(); // This does the full initialization like on power-up
-    }
-
-    prev_state = state;
-#endif
     return state;
 }
