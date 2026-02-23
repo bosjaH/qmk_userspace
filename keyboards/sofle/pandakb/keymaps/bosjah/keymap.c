@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 /*
- * QWERTY (Layer 0)
+ * Eurkey (Layer 0)
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |  `   |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |  Del |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
@@ -147,9 +147,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [L_ADJUST] = WRAPPER(
     XXXXXXX, DL_ISO,  DL_ISO,  DL_EURKEY, XXXXXXX, XXXXXXX,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
-    XXXXXXX, XXXXXXX, UC_WINC, XXXXXXX, XXXXXXX, XXXXXXX,                         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, UC_WINC, XXXXXXX, RM_TOGG, XXXXXXX,                         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, DB_TOGG, XXXXXXX, XXXXXXX,                         XXXXXXX, XXXXXXX, XXXXXXX, UC_LINX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RM_TOGG,       RM_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                       XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX,       XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX
 )
 };
@@ -169,60 +169,156 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
+// #ifdef RGB_MATRIX_ENABLE
+// // Indicator LEDs (flags: 8) are index 0 (left) and 36 (right)
+// #define INDICATOR_LED_LEFT  0
+// #define INDICATOR_LED_RIGHT 36
+
+// bool rgb_matrix_indicators_user(void) {
+//     switch (get_highest_layer(layer_state)) {
+//         case L_LOWER:
+//             // Blue for Lower (symbols/numbers)
+//             rgb_matrix_set_color(INDICATOR_LED_LEFT,  RGB_BLUE);
+//             rgb_matrix_set_color(INDICATOR_LED_RIGHT, RGB_BLUE);
+//             break;
+//         case L_RAISE:
+//             // Green for Raise (navigation)
+//             rgb_matrix_set_color(INDICATOR_LED_LEFT,  RGB_GREEN);
+//             rgb_matrix_set_color(INDICATOR_LED_RIGHT, RGB_GREEN);
+//             break;
+//         case L_EURKEY_ALTGR:
+//             // Yellow for EurKey AltGr
+//             rgb_matrix_set_color(INDICATOR_LED_LEFT,  RGB_YELLOW);
+//             rgb_matrix_set_color(INDICATOR_LED_RIGHT, RGB_YELLOW);
+//             break;
+//         case L_ADJUST:
+//             // Red for Adjust (system)
+//             rgb_matrix_set_color(INDICATOR_LED_LEFT,  RGB_RED);
+//             rgb_matrix_set_color(INDICATOR_LED_RIGHT, RGB_RED);
+//             break;
+//         default:
+//             break;
+//     }
+//     return false;
+// }
+// #endif
+
 #ifdef OLED_ENABLE
+#include "oled_bitmaps.h"
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_keyboard_master()) {
-    return OLED_ROTATION_270;
-  }
-  return rotation;
+    if (!is_keyboard_master()) {
+        return OLED_ROTATION_270;
+    }
+    return rotation;
+}
+
+static void render_icon(uint8_t col, uint8_t line, const char *data, uint8_t width, uint8_t pages) {
+    for (uint8_t p = 0; p < pages; p++) {
+        oled_set_cursor(col, line + p);
+        oled_write_raw_P(data + p * width, width);
+    }
+}
+
+// Left OLED (master, 32x128 vertical): base info + modifier icons
+static void render_left(void) {
+    // Line 0: Base layer
+    switch (get_highest_layer(default_layer_state)) {
+        case L_BASE:
+            oled_write_ln_P(PSTR("QWRTY"), false);
+            break;
+        case L_BASE_EURKEY:
+            oled_write_ln_P(PSTR("EURKY"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("?\n"), false);
+    }
+
+    // Pages 2-13: Modifier icons (32x24 each), shown only when active
+    uint8_t mods = get_mods() | get_oneshot_mods();
+    static const char PROGMEM blank_page[MOD_ICON_W] = {0};
+
+    static const struct {
+        uint8_t      mask;
+        const char  *icon;
+    } mod_icons[] = {
+        { MOD_MASK_CTRL,  icon_ctrl  },
+        { MOD_MASK_ALT,   icon_alt   },
+        { MOD_MASK_SHIFT, icon_shift },
+        { MOD_MASK_GUI,   icon_gui   },
+    };
+
+    for (uint8_t i = 0; i < 4; i++) {
+        uint8_t start_page = 2 + i * MOD_ICON_PAGES;
+        if (mods & mod_icons[i].mask) {
+            render_icon(0, start_page, mod_icons[i].icon, MOD_ICON_W, MOD_ICON_PAGES);
+        } else {
+            for (uint8_t p = 0; p < MOD_ICON_PAGES; p++) {
+                oled_set_cursor(0, start_page + p);
+                oled_write_raw_P(blank_page, MOD_ICON_W);
+            }
+        }
+    }
+}
+
+// Right OLED (slave, 32x128 vertical): big layer indicator
+static void render_right(void) {
+    static uint8_t prev_layer = 255;
+    uint8_t layer = get_highest_layer(layer_state);
+
+    if (layer != prev_layer) {
+        oled_clear();
+        prev_layer = layer;
+    }
+
+    const char *glyph = NULL;
+    const char *label = NULL;
+
+    switch (layer) {
+        case L_LOWER:
+            glyph = big_layer_L;
+            label = PSTR("Lower");
+            break;
+        case L_RAISE:
+            glyph = big_layer_R;
+            label = PSTR("Raise");
+            break;
+        case L_ADJUST:
+            glyph = big_layer_A;
+            label = PSTR("Adjst");
+            break;
+        case L_GAME:
+            glyph = big_layer_G;
+            label = PSTR(" Game");
+            break;
+        case L_EURKEY_ALTGR:
+            glyph = big_layer_E;
+            label = PSTR("EurKy");
+            break;
+#ifdef HOME_ROW_MODS_ENABLE
+        case L_HRM_TRAINING:
+            glyph = big_layer_H;
+            label = PSTR(" HRM ");
+            break;
+#endif
+        default:
+            return; // Base layers: stay blank
+    }
+
+    // Big glyph centered vertically (pages 5-10 of 0-15, 48px = 6 pages)
+    render_icon(0, 5, glyph, BIG_LAYER_W, BIG_LAYER_H / 8);
+
+    // Text label near top
+    oled_set_cursor(0, 12);
+    oled_write_P(label, false);
 }
 
 bool oled_task_user(void) {
-    // Default base layer (persisted with PDF)
-    oled_write_P(PSTR("BASE "), false);
-    switch (get_highest_layer(default_layer_state)) {
-        case L_BASE:
-            oled_write_ln_P(PSTR("Qwrty"), false);
-            break;
-        case L_BASE_EURKEY:
-            oled_write_ln_P(PSTR("EurKy"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("?\n"), false);
+    if (is_keyboard_master()) {
+        render_left();
+    } else {
+        render_right();
     }
-
-    // Active layer
-    oled_write_P(PSTR("LAYER"), false);
-    switch (get_highest_layer(layer_state)) {
-        case L_BASE:
-        case L_BASE_EURKEY:
-            oled_write_ln_P(PSTR("\n"), false);
-            break;
-        case L_LOWER:
-            oled_write_ln_P(PSTR("Lower"), false);
-            break;
-        case L_RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
-            break;
-        case L_EURKEY_ALTGR:
-            oled_write_ln_P(PSTR("EurKy"), false);
-            break;
-        case L_ADJUST:
-            oled_write_ln_P(PSTR("Adjst"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("?\n"), false);
-    }
-
-    // Active modifiers (held + one-shot)
-    uint8_t mods = get_mods() | get_oneshot_mods();
-    oled_write_P(PSTR("MODS "), false);
-    oled_write_P((mods & MOD_MASK_CTRL)  ? PSTR("C") : PSTR(" "), false);
-    oled_write_P((mods & MOD_MASK_SHIFT) ? PSTR("S") : PSTR(" "), false);
-    oled_write_P((mods & MOD_MASK_ALT)   ? PSTR("A") : PSTR(" "), false);
-    oled_write_P((mods & MOD_MASK_GUI)   ? PSTR("G") : PSTR(" "), false);
-    oled_write_P(PSTR("\n"), false);
-
     return false;
 }
 #endif
