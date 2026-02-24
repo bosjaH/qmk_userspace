@@ -220,44 +220,71 @@ static void render_icon(uint8_t col, uint8_t line, const char *data, uint8_t wid
     }
 }
 
-// Left OLED (master, 32x128 vertical): base info + modifier icons
+// Render a modifier letter: shown when active, blank when inactive
+static void render_mod_letter(uint8_t page, const char *data, bool active) {
+    static const char PROGMEM blank[MOD_LETTER_W] = {0};
+    for (uint8_t p = 0; p < MOD_LETTER_PAGES; p++) {
+        oled_set_cursor(0, page + p);
+        if (active) {
+            oled_write_raw_P(data + p * MOD_LETTER_W, MOD_LETTER_W);
+        } else {
+            oled_write_raw_P(blank, MOD_LETTER_W);
+        }
+    }
+}
+
+// Left OLED (master, 32x128 vertical): modifier letters or adjust info
 static void render_left(void) {
-    // Line 0: Base layer
-    switch (get_highest_layer(default_layer_state)) {
-        case L_BASE:
-            oled_write_ln_P(PSTR("QWRTY"), false);
-            break;
-        case L_BASE_EURKEY:
-            oled_write_ln_P(PSTR("EURKY"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("?\n"), false);
+    static bool was_adjust = false;
+    uint8_t layer = get_highest_layer(layer_state);
+    bool is_adjust = (layer == L_ADJUST);
+
+    if (is_adjust != was_adjust) {
+        oled_clear();
+        was_adjust = is_adjust;
     }
 
-    // Pages 2-13: Modifier icons (32x24 each), shown only when active
+    if (is_adjust) {
+        // Adjust screen: show base layer info
+        oled_set_cursor(0, 0);
+        oled_write_ln_P(PSTR(""), false);
+        oled_set_cursor(0, 3);
+        oled_write_ln_P(PSTR("Base:"), false);
+        oled_set_cursor(0, 5);
+        switch (get_highest_layer(default_layer_state)) {
+            case L_BASE:
+                oled_write_ln_P(PSTR("QWRTY"), false);
+                break;
+            case L_BASE_ANSI:
+                oled_write_ln_P(PSTR("ANSI"), false);
+                break;
+            case L_BASE_EURKEY:
+                oled_write_ln_P(PSTR("EURKY"), false);
+                break;
+            default:
+                oled_write_ln_P(PSTR("?"), false);
+        }
+        oled_set_cursor(0, 8);
+        oled_write_ln_P(PSTR("ADJST"), false);
+        return;
+    }
+
+    // Default: 4 modifier letters stacked (C, A, S, G), 32x32 each = 128px
     uint8_t mods = get_mods() | get_oneshot_mods();
-    static const char PROGMEM blank_page[MOD_ICON_W] = {0};
 
     static const struct {
         uint8_t      mask;
         const char  *icon;
-    } mod_icons[] = {
-        { MOD_MASK_CTRL,  icon_ctrl  },
-        { MOD_MASK_ALT,   icon_alt   },
-        { MOD_MASK_SHIFT, icon_shift },
-        { MOD_MASK_GUI,   icon_gui   },
+    } mod_letters[] = {
+        { MOD_MASK_CTRL,  mod_letter_c },
+        { MOD_MASK_ALT,   mod_letter_a },
+        { MOD_MASK_SHIFT, mod_letter_s },
+        { MOD_MASK_GUI,   mod_letter_g },
     };
 
     for (uint8_t i = 0; i < 4; i++) {
-        uint8_t start_page = 2 + i * MOD_ICON_PAGES;
-        if (mods & mod_icons[i].mask) {
-            render_icon(0, start_page, mod_icons[i].icon, MOD_ICON_W, MOD_ICON_PAGES);
-        } else {
-            for (uint8_t p = 0; p < MOD_ICON_PAGES; p++) {
-                oled_set_cursor(0, start_page + p);
-                oled_write_raw_P(blank_page, MOD_ICON_W);
-            }
-        }
+        render_mod_letter(i * MOD_LETTER_PAGES, mod_letters[i].icon,
+                          (mods & mod_letters[i].mask) != 0);
     }
 }
 
