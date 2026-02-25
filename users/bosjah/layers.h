@@ -36,9 +36,9 @@
 
 // Base layer rows (60%)
 #define __BASE_60_ROW2______________________    KC_GRV,    __NUMBERS_L_________________________, __NUMBERS_R_________________________, KC_MINS, KC_EQL, KC_BSPC
-#define __BASE_60_ROW3_ANSI_________________    KC_TAB,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_BSLS
-#define __BASE_60_ROW3_ISO__________________    KC_TAB,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_NUBS
-#define __BASE_60_ROW4______________________    FN_LW_ESC, __QWERTY_L2_________________________, __QWERTY_R2_________________________, KC_QUOT, KC_ENT
+#define __BASE_60_ROW3_ANSI_________________    KC_ESC,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_BSLS
+#define __BASE_60_ROW3_ISO__________________    KC_ESC,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_NUBS
+#define __BASE_60_ROW4______________________    FN_LW_TAB, __QWERTY_L2_________________________, __QWERTY_R2_________________________, KC_QUOT, KC_ENT
 #define __BASE_60_ROW5______________________    KC_LSFT,   __QWERTY_L3_________________________, __QWERTY_R3_________________________, KC_RSFT
 #define __BASE_60_ROW6______________________    KC_LCTL,   KC_LGUI,   KC_LALT,                   FN_RS_SPC,                            KC_RALT, KC_RGUI, KC_APP, KC_RCTL
 #define __BASE_60_ROW6_EURKEY_______________    KC_LCTL,   KC_LGUI,   KC_LALT,                   FN_RS_SPC,                        FN_EU_ALTGR, KC_RGUI, KC_F13, KC_RCTL

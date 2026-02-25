@@ -39,7 +39,7 @@ enum layer_id {
 #define M_TM    LCTL(LSFT(KC_ESC))   // Task manager
 
 // Common layer switching macros
-#define FN_LW_ESC   LT(L_LOWER, KC_ESC)
+#define FN_LW_TAB   LT(L_LOWER, KC_TAB)
 #define FN_RS_SPC   LT(L_RAISE, KC_SPC)
 #define FN_ADJUST   MO(L_ADJUST)
 #define FN_EU_ALTGR MO(L_EURKEY_ALTGR)
