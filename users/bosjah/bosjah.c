@@ -4,9 +4,14 @@
 void keyboard_post_init_user(void) {
     // Set Unicode input mode to Windows Unicode
     set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
+
+    // Restore persisted layer toggles from EEPROM
+    persistent_layers_init();
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (!persistent_layers_process(keycode, record)) return false;
+
   switch (keycode) {
     // case C_LCKEXT:
     //   if (record->event.pressed) {
@@ -44,4 +49,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
+}
+
+void eeconfig_init_user(void) {
+    persistent_layers_eeconfig_init();
 }

@@ -7,26 +7,24 @@
 // Include wrapper definitions
 #include "eurkey.h"
 #include "layers.h"
+#include "persistent_layers.h"
 #ifdef RGB_MATRIX_ENABLE
 #include "rgb_indicators.h"
 #endif
-
-enum custom_keycodes {
-    CK_DEV = QK_USER,
-    CK_EURO
-};
 
 // Layers
 enum layer_id {
     L_BASE,
     L_BASE_ANSI,
     L_BASE_EURKEY,
+    L_BASE_ALT,
 #ifdef HOME_ROW_MODS_ENABLE
     L_HRM_TRAINING,
 #endif
     L_GAME,
     L_LOWER,
     L_RAISE,
+    L_TRI,
     L_EURKEY_ALTGR,
     L_ADJUST,
 };
