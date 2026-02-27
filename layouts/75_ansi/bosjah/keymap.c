@@ -42,8 +42,8 @@ combo_t key_combos[] = {
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [L_BASE] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    [L_BASE_ANSI] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    [L_BASE_EURKEY] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    [L_MOD_ISO] = { ENCODER_CCW_CW(_______, _______) },
+    [L_MOD_EURKEY] = { ENCODER_CCW_CW(_______, _______) },
     [L_GAME] = { ENCODER_CCW_CW(_______, _______) },
     [L_LOWER] = { ENCODER_CCW_CW(_______, _______) },
     [L_RAISE] = { ENCODER_CCW_CW(_______, _______) },
@@ -60,26 +60,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_BASE] = WRAPPER_ansi( /* Base */
         __BASE_75_ROW1______________________,
         __BASE_75_ROW2______________________,
-        __BASE_75_ROW3_ISO__________________,
+        __BASE_75_ROW3______________________,
         __BASE_75_ROW4______________________,
         __BASE_75_ROW5______________________,
         __BASE_75_ROW6______________________),
 
-    [L_BASE_ANSI] = WRAPPER_ansi( /* Base */
-        __BASE_75_ROW1______________________,
-        __BASE_75_ROW2______________________,
-        __BASE_75_ROW3_ANSI_________________,
-        __BASE_75_ROW4______________________,
-        __BASE_75_ROW5______________________,
-        __BASE_75_ROW6______________________),
+    [L_MOD_ISO] = WRAPPER_ansi( /* ISO Modifier */
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
+        __TRNS_60_ROW2______________________,          _______,
+        __MOD_ISO_75_ROW3___________________,
+        __TRNS_60_ROW4______________________,          _______,
+        __TRNS_60_ROW5______________________, _______, _______,
+        _______, _______, _______,     _______,      _______, _______, _______, _______, _______, _______),
 
-    [L_BASE_EURKEY] = WRAPPER_ansi( /* Eurkey Base */
-        __BASE_75_ROW1_EURKEY_______________,
-        __BASE_75_ROW2______________________,
-        __BASE_75_ROW3_ANSI_________________,
-        __BASE_75_ROW4______________________,
-        __BASE_75_ROW5______________________,
-        __BASE_75_ROW6______________________),
+    [L_MOD_EURKEY] = WRAPPER_ansi( /* Eurkey Modifier */
+        __MOD_EURKEY_75_ROW1________________,
+        __TRNS_60_ROW2______________________,          _______,
+        __TRNS_60_ROW3______________________,          _______,
+        __TRNS_60_ROW4______________________,          _______,
+        __TRNS_60_ROW5______________________, _______, _______,
+        __MOD_EURKEY_75_ROW6________________),
 
     [L_GAME] = WRAPPER_ansi(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,

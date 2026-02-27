@@ -36,23 +36,31 @@
 
 // Base layer rows (60%)
 #define __BASE_60_ROW2______________________    KC_GRV,    __NUMBERS_L_________________________, __NUMBERS_R_________________________, KC_MINS, KC_EQL, KC_BSPC
-#define __BASE_60_ROW3_ANSI_________________    KC_ESC,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_BSLS
-#define __BASE_60_ROW3_ISO__________________    KC_ESC,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_NUBS
+#define __BASE_60_ROW3______________________    KC_ESC,    __QWERTY_L1_________________________, __QWERTY_R1_________________________, KC_LBRC, KC_RBRC, KC_BSLS
 #define __BASE_60_ROW4______________________    FN_LW_TAB, __QWERTY_L2_________________________, __QWERTY_R2_________________________, KC_QUOT, KC_ENT
 #define __BASE_60_ROW5______________________    KC_LSFT,   __QWERTY_L3_________________________, __QWERTY_R3_________________________, KC_RSFT
 #define __BASE_60_ROW6______________________    KC_LCTL,   KC_LGUI,   KC_LALT,                   FN_RS_SPC,                            KC_RALT, KC_RGUI, KC_APP, KC_RCTL
-#define __BASE_60_ROW6_EURKEY_______________    KC_LCTL,   KC_LGUI,   KC_LALT,                   FN_RS_SPC,                        FN_EU_ALTGR, KC_RGUI, KC_F13, KC_RCTL
+
+// Modifier layer: ISO overlay (60%) — only overrides BSLS → NUBS
+#define __MOD_ISO_60_ROW3___________________    _______,   _______,   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_NUBS
+
+// Modifier layer: EURKEY overlay (60%) — replaces RALT with EU_ALTGR, APP with F13
+#define __MOD_EURKEY_60_ROW6________________    _______,   _______,   _______,                   _______,                        FN_EU_ALTGR, _______, KC_F13, _______
 
 // Base layer rows (75%)
 #define __BASE_75_ROW1______________________    KC_ESC,    __F_KEYS_L__________________________, __F_KEYS_R__________________________, KC_INS,  KC_MUTE
-#define __BASE_75_ROW1_EURKEY_______________    KC_ESC,    __F_KEYS_L__________________________, __F_KEYS_R__________________________, KC_F13,  KC_MUTE
 #define __BASE_75_ROW2______________________    __BASE_60_ROW2______________________,                                                           KC_DEL
-#define __BASE_75_ROW3_ANSI_________________    __BASE_60_ROW3_ANSI_________________,                                                           KC_PGUP
-#define __BASE_75_ROW3_ISO__________________    __BASE_60_ROW3_ISO__________________,                                                           KC_PGUP
+#define __BASE_75_ROW3______________________    __BASE_60_ROW3______________________,                                                           KC_PGUP
 #define __BASE_75_ROW4______________________    __BASE_60_ROW4______________________,                                                           KC_PGDN
 #define __BASE_75_ROW5______________________    __BASE_60_ROW5______________________,                                                  KC_UP,   KC_END
 #define __BASE_75_ROW6______________________    KC_LCTL,   KC_LGUI,   KC_LALT,     FN_RS_SPC,      KC_RALT, KC_RGUI, KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
-#define __BASE_75_ROW6_EURKEY_______________    KC_LCTL,   KC_LGUI,   KC_LALT,     FN_RS_SPC,  FN_EU_ALTGR, KC_RGUI, KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+
+// Modifier layer: ISO overlay (75%)
+#define __MOD_ISO_75_ROW3___________________    __MOD_ISO_60_ROW3___________________,                                                            _______
+
+// Modifier layer: EURKEY overlay (75%)
+#define __MOD_EURKEY_75_ROW1________________    _______,   _______,   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_F13,  _______
+#define __MOD_EURKEY_75_ROW6________________    _______,   _______,   _______,     _______,    FN_EU_ALTGR, _______, _______, _______, _______, _______
 
 // Base layer rows (6x4)
 #define __BASE_6x4_L1_______________________    KC_GRV,    __NUMBERS_L_________________________
@@ -97,7 +105,7 @@
 #define __RAISE_60_ROW6_____________________    _______, _______, _______,                   _______,                                     _______, _______, _______, _______
 
 // Adjust layer wrappers
-#define __ADJUST_60_ROW2____________________    FN_GAME,  DL_ISO,   DL_ANSI, DL_EURKEY,XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT
+#define __ADJUST_60_ROW2____________________    FN_GAME,  FN_ISO,   XXXXXXX, FN_EURKEY,XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT
 #define __ADJUST_60_ROW3____________________    XXXXXXX,  XXXXXXX,  UC_WINC, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
 #ifdef HOME_ROW_MODS_ENABLE
 #define __ADJUST_60_ROW4____________________    _______,  XXXXXXX,  DB_TOGG, XXXXXXX,  XXXXXXX,  XXXXXXX,  TG(L_HRM_TRAINING),  XXXXXXX,  XXXXXXX,  UC_LINX,  XXXXXXX,  XXXXXXX,          FN_ADJUST

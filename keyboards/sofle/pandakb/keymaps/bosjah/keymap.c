@@ -39,26 +39,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 /*
- * Eurkey (Layer 0)
+ * Eurkey Modifier - Overlay that adds FN_EU_ALTGR to thumb cluster
  * ,-----------------------------------------.                    ,-----------------------------------------.
- * |  `   |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |  Del |
+ * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  |   Q  |   W  |   E  |   R  |   T  |                    |   Y  |   U  |   I  |   O  |   P  | Bspc |
+ * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |-------.    ,-------|   H  |   J  |   K  |   L  |   ;  |  '   |
- * |------+------+------+------+------+------|  MUTE |    | CALC  |------+------+------+------+------+------|
- * |LShift|   Z  |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |   ,  |   .  |   /  |RShift|
+ * |      |      |      |      |      |      |-------.    ,-------|      |      |      |      |      |      |
+ * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |-------|    |-------|      |      |      |      |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *            | LGUI | LAlt | LCTR |LT/Ent| / Bspc  /       \Enter \  |LT/Spc| RAlt |   -  |   =  |
- *            |      |      |      |LOWER |/       /         \      \ |RAISE |      |      |      |
+ *            |      |      |      |      |  /      /       \      \  |      |EuAltG|      |      |
+ *            |      |      |      |      | /      /         \      \ |      |      |      |      |
  *            `----------------------------------'           '------''---------------------------'
  */
-[L_BASE_EURKEY] = WRAPPER(
-    __BASE_6x4_L1_______________________,                        __BASE_6x4_R1_______________________,
-    __BASE_6x4_L2_______________________,                        __BASE_6x4_R2_______________________,
-    __BASE_6x4_L3_______________________,                        __BASE_6x4_R3_______________________,
-    __BASE_6x4_L4_______________________, KC_MUTE,      KC_CALC, __BASE_6x4_R4_______________________,
-        KC_LGUI, KC_LALT, KC_LCTL, LT_LOW_ENT, KC_BSPC, KC_ENT, LT_RSE_SPC, FN_EU_ALTGR, KC_MINS, KC_EQL
+[L_MOD_EURKEY] = WRAPPER(
+    _______, _______, _______, _______, _______, _______,                         _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                         _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                         _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,       _______, _______, FN_EU_ALTGR, _______, _______
 ),
 
 /*
@@ -146,7 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
 [L_ADJUST] = WRAPPER(
-    XXXXXXX, DL_ISO,  DL_ISO,  DL_EURKEY, XXXXXXX, XXXXXXX,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
+    XXXXXXX, XXXXXXX, XXXXXXX, FN_EURKEY, XXXXXXX, XXXXXXX,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
     XXXXXXX, XXXXXXX, UC_WINC, XXXXXXX, RM_TOGG, XXXXXXX,                         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, DB_TOGG, XXXXXXX, XXXXXXX,                         XXXXXXX, XXXXXXX, XXXXXXX, UC_LINX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -161,7 +161,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     // Left encoder: Volume control
     // Right encoder: Scroll wheel
     [L_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
-    [L_BASE_EURKEY] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
+    [L_MOD_EURKEY] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
     [L_LOWER]  = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
     [L_RAISE]  = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
     [L_EURKEY_ALTGR] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
@@ -254,12 +254,6 @@ static void render_left(void) {
         switch (get_highest_layer(default_layer_state)) {
             case L_BASE:
                 oled_write_ln_P(PSTR("QWRTY"), false);
-                break;
-            case L_BASE_ANSI:
-                oled_write_ln_P(PSTR("ANSI"), false);
-                break;
-            case L_BASE_EURKEY:
-                oled_write_ln_P(PSTR("EURKY"), false);
                 break;
             default:
                 oled_write_ln_P(PSTR("?"), false);

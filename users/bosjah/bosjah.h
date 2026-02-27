@@ -15,9 +15,8 @@
 // Layers
 enum layer_id {
     L_BASE,
-    L_BASE_ANSI,
-    L_BASE_EURKEY,
-    L_BASE_ALT,
+    L_MOD_ISO,
+    L_MOD_EURKEY,
 #ifdef HOME_ROW_MODS_ENABLE
     L_HRM_TRAINING,
 #endif
@@ -42,9 +41,8 @@ enum layer_id {
 #define FN_ADJUST   MO(L_ADJUST)
 #define FN_EU_ALTGR MO(L_EURKEY_ALTGR)
 #define FN_GAME     TG(L_GAME)
-#define DL_ISO      PDF(L_BASE)
-#define DL_ANSI     PDF(L_BASE_ANSI)
-#define DL_EURKEY   PDF(L_BASE_EURKEY)
+#define FN_ISO      PTG(L_MOD_ISO)
+#define FN_EURKEY   PTG(L_MOD_EURKEY)
 
 // Home row mods
 #define HRM_A    LGUI_T(KC_A)
